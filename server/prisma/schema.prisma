@@ -16,6 +16,7 @@ model User {
   email    String  @unique
   password String
   name     String?
+  address String?
   role     Role    @default(USER)
   orders   Order[]
   prints    Print[]
@@ -35,8 +36,8 @@ model Print {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  type      String
-  price     Float
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   order     Order?   @relation(fields: [orderId], references: [id])
@@ -67,4 +68,19 @@ model Image {
   size       Int
   print     Print    @relation(fields: [printId], references: [id])
   printId   Int
+}
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  img       String
+  title     String
+  description String
+  path      String
+  type      String
+  price     Float
+  overlay   String
+  available Boolean
+  prints    Print[] 
 }

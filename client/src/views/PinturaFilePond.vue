@@ -45,7 +45,9 @@ import { useRouter } from 'vue-router'
 import { toRaw } from 'vue'
 // Import store
 import { useAuthStore } from '../store/auth'
+import { useProductStore } from '../store/product'
 const authStore = useAuthStore()
+const productStore = useProductStore()
 // Import Vue FilePond
 import vueFilePond, { setOptions } from 'vue-filepond'
 import FilePondPluginFilePoster from 'filepond-plugin-file-poster'
@@ -107,9 +109,6 @@ export default {
   name: 'PinturaEditor',
   components: {
     FilePond
-  },
-  props: {
-    overlay: String
   },
   methods: {
     handleImageEditorUpdate(event) {
@@ -176,35 +175,10 @@ export default {
         URL.revokeObjectURL(fileDataUrl)
       }
 
-      let typeName = this.overlay.substring(
-        this.overlay.lastIndexOf('/') + 1,
-        this.overlay.lastIndexOf('.')
-      )
-
-      let price
-
-      switch (typeName) {
-        case 'kodak-overlay':
-          typeName = 'Kodachrome'
-          price = 10.0
-          break
-        case 'overlay2':
-          typeName = 'Movie Reel'
-          price = 15.0
-          break
-        case 'overlay3':
-          typeName = 'Kodak Portra'
-          price = 20.0
-          break
-        default:
-          price = 0.0
-          break
-      }
       // Add additional form data or send an API request to persist the images
       this.loading = true
       try {
-        formData.append('type', typeName)
-        formData.append('price', price)
+        formData.append('productId', this.product.id)
         const userId = authStore.user.id
         const response = await fetch(`http://localhost:8080/upload/${userId}`, {
           method: 'POST',
@@ -222,7 +196,10 @@ export default {
     }
   },
   mounted() {
-    console.log(this.overlay)
+    this.product = productStore.product
+    console.log(this.product)
+    this.kodak_overlay = this.product.overlay
+    console.log(this.kodak_overlay)
   },
   data() {
     return {
@@ -306,11 +283,11 @@ export default {
       },
       // PROPERTIES
       result: undefined,
-      // overlay: overlay,
-      kodak_overlay: this.overlay,
+      kodak_overlay: '',
       files: [],
       router: useRouter(),
-      loading: false
+      loading: false,
+      product: {}
     }
   }
 }

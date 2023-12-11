@@ -15,7 +15,8 @@
       </p>
 
       <router-link
-        :to="{ name: product.path, params: { overlay: product.overlay } }"
+        @click="setProduct(product)"
+        :to="{ name: 'product' }"
         class="absolute bottom-3 left-5 rounded bg-primary text-secondary border-2 border-white rounded-lg px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal"
         >Get Started</router-link
       >
@@ -24,11 +25,18 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, onMounted } from 'vue'
+import { defineProps } from 'vue'
+import { useProductStore } from '../store/product'
+
+const productStore = useProductStore()
 
 const props = defineProps({
   product: Object
 })
+
+const setProduct = (product) => {
+  productStore.product = product
+}
 </script>
 
 <style scoped></style>

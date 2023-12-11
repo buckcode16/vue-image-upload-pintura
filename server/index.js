@@ -3,6 +3,7 @@ import cors from 'cors'
 import authRouter from './api/auth.api.js'
 import printRouter from './api/print.api.js'
 import orderRouter from './api/order.api.js'
+import productRouter from './api/product.api.js'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(authRouter)
 app.use(printRouter)
 app.use(orderRouter)
+app.use(productRouter)
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080

@@ -51,26 +51,13 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Prints.vue')
       },
       {
-        path: '/product-1/:overlay',
-        name: 'product-1',
-        meta: {
-          requiresAuth: true
-        },
-        component: () => import('@/views/PinturaFilePond.vue'),
-        props: true
+        path: '/admin',
+        name: 'admin',
+        component: () => import('@/views/Admin.vue')
       },
       {
-        path: '/product-2/:overlay',
-        name: 'product-2',
-        meta: {
-          requiresAuth: true
-        },
-        component: () => import('@/views/PinturaFilePond.vue'),
-        props: true
-      },
-      {
-        path: '/product-3/:overlay',
-        name: 'product-3',
+        path: '/product',
+        name: 'product',
         meta: {
           requiresAuth: true
         },

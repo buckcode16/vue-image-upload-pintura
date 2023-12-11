@@ -24,6 +24,7 @@ export async function getOrders(req, res) {
       prints: {
         include: {
           images: true,
+          product: true,
         },
       },
     },

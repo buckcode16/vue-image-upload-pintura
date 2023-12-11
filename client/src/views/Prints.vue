@@ -107,7 +107,6 @@ const togglePrintSelection = (printId) => {
     // If already in the array, remove it
     selectedPrints.value.splice(index, 1)
   }
-  console.log(selectedPrints.value.length)
 }
 
 const makeOrder = async () => {
@@ -121,7 +120,7 @@ const makeOrder = async () => {
     setTimeout(() => {
       loading.value = false
       router.go(0)
-    }, 2000)
+    }, 1000)
   } catch (error) {
     console.error('Load images failed:', error)
   }

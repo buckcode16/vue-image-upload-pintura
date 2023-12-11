@@ -53,6 +53,24 @@
           </div>
           <div>
             <div class="flex items-center justify-between">
+              <label for="address" class="block text-sm font-medium leading-6 text-gray-900"
+                >Address</label
+              >
+            </div>
+            <div class="mt-2">
+              <input
+                v-model="address"
+                id="address"
+                name="address"
+                type="text"
+                autocomplete="current-address"
+                required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
               <label for="password" class="block text-sm font-medium leading-6 text-gray-900"
                 >Password</label
               >
@@ -100,6 +118,7 @@ import { useRouter } from 'vue-router'
 const email = ref('')
 const password = ref('')
 const name = ref('')
+const address = ref('')
 const router = useRouter()
 
 const handleSignUp = async () => {
@@ -107,7 +126,8 @@ const handleSignUp = async () => {
     await axios.post('http://localhost:8080/auth/signup', {
       email: email.value,
       name: name.value,
-      password: password.value
+      password: password.value,
+      address: address.value
     })
 
     router.push({ name: 'home' })

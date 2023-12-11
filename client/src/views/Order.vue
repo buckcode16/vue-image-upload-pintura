@@ -25,12 +25,12 @@
                     <div class="grid grid-cols-12">
                       <div class="w-full col-span-3">
                         <h6 class="font-semibold uppercase">
-                          <span>Frame type: {{ print.type }}</span>
+                          <span>Frame type: {{ print.product.type }}</span>
                         </h6>
                         <p class="">x {{ print.images.length }}</p>
                         <div>
                           <span class="font-semibold text-xl"
-                            >${{ print.images.length * print.price }}</span
+                            >${{ print.images.length * print.product.price }}</span
                           ><span class="font-semibold">.00</span>
                         </div>
                       </div>
@@ -270,7 +270,7 @@ const total = computed(() => {
   let total = 0
   for (const order of orders.value) {
     for (const print of order.prints) {
-      total += print.images.length * print.price
+      total += print.images.length * print.product.price
     }
   }
   return total
@@ -309,7 +309,6 @@ const loadOrders = async () => {
       }
     })
     orders.value = res.data.filter((order) => order.order_status === 'PENDING_PAYMENT')
-    console.log(orders.value)
   } catch (error) {
     console.error('Load images failed:', error)
   }

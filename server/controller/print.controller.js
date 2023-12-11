@@ -2,21 +2,17 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export async function uploadImages(req, res) {
-  // Your verification and processing logic here
-  // console.log(req.body.type)
-  // console.log(req.body.price)
-  // console.log('userId', req.params.userId)
-  // console.log(req.params.orderId)
-  // console.log(req.files)
-
   // Create a print
   const print = await prisma.print.create({
     data: {
-      type: req.body.type,
-      price: parseFloat(req.body.price),
       user: {
         connect: {
           id: parseInt(req.params.userId),
+        },
+      },
+      product: {
+        connect: {
+          id: parseInt(req.body.productId),
         },
       },
     },
@@ -53,6 +49,7 @@ export async function getImages(req, res) {
     include: {
       images: true,
       order: true,
+      product: true,
     },
   })
   // Respond to the client as needed

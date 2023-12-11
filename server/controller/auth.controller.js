@@ -25,6 +25,7 @@ export async function signup(req, res) {
     data: {
       name: req.body.name,
       email: req.body.email,
+      address: req.body.address,
       password: hashSync(req.body.password, 8),
       role: 'USER',
     },
