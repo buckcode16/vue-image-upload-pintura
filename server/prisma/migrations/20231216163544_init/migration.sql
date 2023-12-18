@@ -1,8 +1,11 @@
 -- CreateEnum
-CREATE TYPE "OrderStatus" AS ENUM ('PENDING_PAYMENT', 'PAID', 'CANCELLED');
+CREATE TYPE "OrderStatus" AS ENUM ('PENDING_PAYMENT', 'PAID', 'CANCELLED', 'SHIPPED');
 
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
+
+-- CreateEnum
+CREATE TYPE "PaymentType" AS ENUM ('CREDIT_CARD', 'PAYPAL', 'TNG_EWALLET');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -23,6 +26,7 @@ CREATE TABLE "Order" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "order_status" "OrderStatus" NOT NULL DEFAULT 'PENDING_PAYMENT',
     "userId" INTEGER NOT NULL,
+    "payment_type" "PaymentType",
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );

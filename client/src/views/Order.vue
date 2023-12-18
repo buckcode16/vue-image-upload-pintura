@@ -19,7 +19,10 @@
         <div class="w-full">
           <div class="-mx-3 md:flex items-start">
             <div class="px-3 md:w-7/12 lg:pr-10">
-              <div class="w-full mx-auto mb-6 border-b border-primary pb-6">
+              <div
+                v-if="orders.length > 0"
+                class="w-full mx-auto mb-6 border-b border-primary pb-6"
+              >
                 <div v-for="order in orders">
                   <div v-for="print in order.prints">
                     <div class="grid grid-cols-12">
@@ -47,6 +50,7 @@
                   </div>
                 </div>
               </div>
+              <div v-else><h2>Empty cart, add some prints!</h2></div>
               <div class="mb-6 pb-6 border-b border-primary">
                 <div class="-mx-2 flex items-end justify-end">
                   <div class="flex-grow px-2 lg:max-w-xs">
@@ -117,6 +121,8 @@
                         type="radio"
                         class="form-radio h-5 w-5 text-indigo-500"
                         name="type"
+                        v-model="selectedPaymentMethod"
+                        value="credit-card"
                         id="type1"
                         checked
                         @click="showQRCode = false"
@@ -205,6 +211,8 @@
                       type="radio"
                       class="form-radio h-5 w-5 text-indigo-500"
                       name="type"
+                      v-model="selectedPaymentMethod"
+                      value="paypal"
                       id="type2"
                       @click="showQRCode = false"
                     />
@@ -221,6 +229,8 @@
                       type="radio"
                       class="form-radio h-5 w-5 text-indigo-500"
                       name="type"
+                      v-model="selectedPaymentMethod"
+                      value="tng-ewallet"
                       id="type3"
                       @click="showQRCode = true"
                     />
@@ -243,6 +253,8 @@
               <div>
                 <button
                   class="block w-full max-w-xs mx-auto bg-accent hover:bg-accent focus:bg-accent text-white rounded-lg px-3 py-2 font-semibold"
+                  :class="!orders.length ? 'opacity-50 cursor-not-allowed' : ''"
+                  :disabled="!orders.length"
                   @click="makePayment"
                 >
                   <i class="mdi mdi-lock-outline mr-1"></i> PAY NOW
@@ -276,6 +288,7 @@ const total = computed(() => {
   return total
 })
 const showQRCode = ref(false)
+const selectedPaymentMethod = ref('credit-card')
 
 onMounted(() => {
   userId.value = authStore.user?.id
@@ -287,7 +300,21 @@ const generateQRCode = () => {
 }
 
 const makePayment = async () => {
-  console.log('makePayment')
+  console.log('makePayment', selectedPaymentMethod.value)
+  console.log(orders.value)
+  const orderIds = orders.value.map((order) => order.id)
+  try {
+    const res = await axios.post(`http://localhost:8080/order`, {
+      data: {
+        orderIds: orderIds,
+        paymentMethod: selectedPaymentMethod.value
+      }
+    })
+    window.location.reload()
+  } catch (error) {
+    console.error('Update orders failed:', error)
+  }
+  console.log('orderIds', orderIds)
 
   // try {
   //   const res = await axios.post(`http://localhost:8080/order/${userId.value}`, {

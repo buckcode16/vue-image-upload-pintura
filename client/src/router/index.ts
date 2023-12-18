@@ -53,7 +53,31 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/admin',
         name: 'admin',
-        component: () => import('@/views/Admin.vue')
+        beforeEnter: (to, from, next) => {
+          const authStore = useAuthStore()
+
+          if (authStore.user.role !== 'ADMIN') {
+            next('/')
+          } else {
+            next()
+          }
+        },
+        redirect: {
+          name: 'manage-order'
+        },
+        component: () => import('@/views/admin/Admin.vue'),
+        children: [
+          {
+            name: 'manage-order',
+            path: 'order',
+            component: () => import('@/views/admin/Order.vue')
+          },
+          {
+            name: 'manage-product',
+            path: 'product',
+            component: () => import('@/views/admin/Product.vue')
+          }
+        ]
       },
       {
         path: '/product',

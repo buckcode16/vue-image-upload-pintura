@@ -30,6 +30,7 @@ model Order {
   order_status OrderStatus @default(PENDING_PAYMENT)
   user         User        @relation(fields: [userId], references: [id])
   userId       Int
+  payment_type PaymentType?
 }
 
 model Print {
@@ -49,6 +50,7 @@ enum OrderStatus {
   PENDING_PAYMENT
   PAID
   CANCELLED
+  SHIPPED
 }
 
 enum Role {
@@ -83,4 +85,10 @@ model Product {
   overlay   String
   available Boolean
   prints    Print[] 
+}
+
+enum PaymentType {
+  CREDIT_CARD
+  PAYPAL
+  TNG_EWALLET
 }

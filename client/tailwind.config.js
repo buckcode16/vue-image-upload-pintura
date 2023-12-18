@@ -2,7 +2,7 @@
 module.exports = {
   content: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
   theme: {
-    fontFamily: { sans: ['Helvetica', 'Arial', 'sans-serif'] },
+    fontFamily: { sans: ['Josefin Slab', 'Helvetica', 'Arial', 'sans-serif'] },
     extend: {
       colors: {
         primary: '#f5eceb',
